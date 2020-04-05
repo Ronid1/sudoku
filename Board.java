@@ -21,6 +21,9 @@ public class Board implements ActionListener{
 	private boolean doneSetting = false; //indicate if set button was pressed
 	private boolean[][] setBoard; //indicate if a cell is set
 	
+	private final int BUILD_YOUR_OWN = 0;
+	private final int PRESET = 1;
+	
 	public Board(int size)
 	{			
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -81,8 +84,32 @@ public class Board implements ActionListener{
 		
 		frame.pack();
 		frame.setVisible(true);
-	}
 		
+		//set the board by users choice
+		setGameOptions(chooseGame());
+	
+	}
+	
+	//user chooses between preset game or build your own
+	public int chooseGame()
+	{
+		Object[] options = {"build my own board", "preset board"};
+		
+		return JOptionPane.showOptionDialog(frame,"Would you like to build your own board or solve a preset game?", null, JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,
+						null, options, options);
+
+	}
+	
+	public void setGameOptions(int n)
+	{
+		//if user chooses a preset game, set a new random board
+		if (n == PRESET)
+		{
+			logics.presetBoard();
+			setText();
+			set();
+		}
+	}
 	
 	//add a number from user input to cell[r][c]
 	public void setCell(int r, int c)
@@ -216,10 +243,12 @@ public class Board implements ActionListener{
 		setText();
 	}
 	
-	//if new game button pressed - delete all board
+	//if new game button pressed - delete all board (including set cells)
 	public void newGame()
 	{
 		doneSetting = false;
+		
+		//Delete previous board
 		for (int i = 0; i < rowSize; i++)
 		{
 			for (int j = 0; j < rowSize; j++)
@@ -235,6 +264,9 @@ public class Board implements ActionListener{
 		}
 		
 		setText();
+		
+		//Set new board by users choice
+		setGameOptions(chooseGame());
 	}
 
 

@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /*
  * SudokuLogics represents a sudoku board of size*size and implements all of the games rules
  */
@@ -8,6 +10,7 @@ public class SudokuLogics {
 	private int size;
 	private int blocks[][];
 	private int blockSize;
+	private static final int MIN_PRESET_CELLS = 8;
 	
 	public SudokuLogics(int i)
 	{
@@ -109,5 +112,30 @@ public class SudokuLogics {
 	public int getBlockSize()
 	{
 		return blockSize;
+	}
+	
+	//build a new random board
+	public void presetBoard()
+	{
+		Random random = new Random();
+		int maxPresetCells =  random.nextInt(size*size);
+		while (maxPresetCells < MIN_PRESET_CELLS)
+			maxPresetCells =  random.nextInt(size*size);
+		
+		int row, column, number;
+		
+		for (int i = 0 ;  i < maxPresetCells; i++)
+		{
+			row = random.nextInt(size);
+			column = random.nextInt(size);
+			//if this cell has already been set, skip it
+			if (getValue(row, column) != 0)
+				continue;
+			
+			number = random.nextInt(size);
+			//if the number and location are legal, add to board
+			if (legalNumber(number, row, column))
+				addNumber(number, row, column);
+		}
 	}
 }
