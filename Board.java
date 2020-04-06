@@ -274,7 +274,6 @@ public class Board implements ActionListener{
 	public void actionPerformed(ActionEvent e) 
 	{
 		Object source = e.getSource();
-		System.out.println(source);
 		
 		if (source == cmdSet)
 			set();
@@ -294,7 +293,6 @@ public class Board implements ActionListener{
 			{
 				for (int j = 0; j < rowSize; j++)
 				{
-					System.out.println("cells["+i+"]["+j+"]=" + cells[i][j]);
 					if (source == cells[i][j])
 					{
 						row = i; column = j;
